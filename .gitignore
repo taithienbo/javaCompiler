@@ -8,5 +8,8 @@
 #generated files
 bin/
 
+#DS_Store
+.DS_Store
+
 # Thumbnails
 ._*
