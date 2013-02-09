@@ -21,9 +21,9 @@ public abstract class Structure
 	 * @param data
 	 * @return
 	 */
-	public static int intFromBytes(byte[] data)
+	public static double valueFromBytes(byte[] data)
 	{
-		int result = 0;
+		double result = 0;
 		int startPos = data.length * 8 -1;
 		
 		ByteArrayInputStream bis = new ByteArrayInputStream(data);
@@ -34,12 +34,10 @@ public abstract class Structure
 		while(bis.available() > 0)
 		{
 			int number = bis.read();
-			result += bitMan.intFromBits(number, startPos);
+			result += bitMan.valueFromBits(number, startPos);
 			startPos = startPos - 8;
 		}
 		
 		return result;
 	}
-	
-	
 }

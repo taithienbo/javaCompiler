@@ -20,7 +20,7 @@ public class ConstantInteger extends ConstantIntFloat
 	
 	public int value()
 	{
-		return intFromBytes(bytes);
+		return (int) valueFromBytes(bytes);
 	}
 	
 	@Override

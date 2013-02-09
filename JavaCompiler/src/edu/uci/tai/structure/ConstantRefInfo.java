@@ -30,12 +30,12 @@ public abstract class ConstantRefInfo extends Structure
 	
 	public int classIndex()
 	{
-		return intFromBytes(classIndex);	
+		return (int) valueFromBytes(classIndex);	
 	}
 	
 	public int nameAndTypeIndex()
 	{
-		return intFromBytes(nameAndTypeIndex);
+		return (int) valueFromBytes(nameAndTypeIndex);
 	}
 	
 	public abstract int getTag();

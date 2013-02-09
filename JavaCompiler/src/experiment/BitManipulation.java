@@ -1,6 +1,6 @@
 package experiment;
 
-public class BitManipulation 
+public class BitManipulation
 {
 	public static final int NUM_BITS = 8;
 	
@@ -15,23 +15,27 @@ public class BitManipulation
 		return 1 << shiftAmount;
 	}
 	
-	public int intFromBit(int bitPosition)
+	
+	public double valueFromBit(int bitPosition)
 	{
-		return (int) Math.pow(2, bitPosition);
+		return Math.pow(2, bitPosition);
 	}
 	
-	public int intFromBits(int number, int mostSignificantBitPos)
+
+	
+	public double valueFromBits(int number, int mostSignificantBitPos)
 	{
-		int result = 0; 
+		double result = 0; 
 		int pos = mostSignificantBitPos;
 		for (int i = NUM_BITS - 1; i >= 0; i--)
 		{
 			if (getBit(number, i))		
-				result += intFromBit(pos);
+				result += valueFromBit(pos);
 	
 			pos--;
 		}
 		
 		return result;
 	}
+	
 }

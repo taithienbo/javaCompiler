@@ -25,7 +25,7 @@ public class ConstantString extends Structure
 	
 	private int stringIndex()
 	{
-		return intFromBytes(stringIndex);
+		return (int) valueFromBytes(stringIndex);
 	}
 	
 	@Override

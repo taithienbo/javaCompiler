@@ -17,7 +17,7 @@ public class Main
 	
 	public static void main(String[] args) throws IOException
 	{
-		Main parser = new Main("Test1.class");
+		Main parser = new Main("aaa.class");
 		parser.parse();
 	}
 	

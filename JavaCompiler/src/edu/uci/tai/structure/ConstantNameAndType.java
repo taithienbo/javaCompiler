@@ -35,12 +35,12 @@ public class ConstantNameAndType extends Structure
 	
 	public int nameIndex()
 	{
-		return intFromBytes(nameIndex);
+		return (int) valueFromBytes(nameIndex);
 	}
 	
 	public int descriptorIndex()
 	{
-		return intFromBytes(descriptorIndex);
+		return (int) valueFromBytes(descriptorIndex);
 	}
 	
 

@@ -14,7 +14,7 @@ public class ConstantFloat extends ConstantIntFloat
 	
 	public float value()
 	{
-		int bits = intFromBytes(bytes);
+		int bits = (int) valueFromBytes(bytes);
 		return Float.intBitsToFloat(bits);
 	}
 	
