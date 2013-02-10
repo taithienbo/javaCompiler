@@ -1,12 +1,13 @@
 package edu.uci.tai.structure;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 
 import edu.uci.tai.parser.ConstantPool;
 
-public class ConstantDouble extends Structure
+public class ConstantDouble extends ConstantLongDouble
 {
-	public ConstantDouble(FileInputStream fis)
+	public ConstantDouble(FileInputStream fis) throws IOException
 	{
 		super(fis);
 	}
@@ -15,5 +16,20 @@ public class ConstantDouble extends Structure
 	public int getTag() 
 	{
 		return ConstantPool.CONSTANT_DOUBLE;
+	}
+	
+	public double value()
+	{
+		throw new RuntimeException("Not yet known how to parse doiubel from bytes");
+	}
+	
+	@Override
+	public String toString()
+	{
+		StringBuilder builder = new StringBuilder();
+		builder.append("CONSTANT_Double_info: \n");
+		builder.append(String.format("not yet implemented parsing double from bytes"));
+	
+		return builder.toString();
 	}
 }
