@@ -1,4 +1,4 @@
-package edu.uci.tai.parser;
+package edu.uci.tai.javaCompiler;
 
 public class ClassFileRepresentation 
 {

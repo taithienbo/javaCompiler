@@ -1,22 +1,10 @@
-package edu.uci.tai.parser;
+package edu.uci.tai.constantPool;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import edu.uci.tai.structure.ConstantClass;
-import edu.uci.tai.structure.ConstantDouble;
-import edu.uci.tai.structure.ConstantFieldRef;
-import edu.uci.tai.structure.ConstantFloat;
-import edu.uci.tai.structure.ConstantInteger;
-import edu.uci.tai.structure.ConstantInterfaceMethodRef;
-import edu.uci.tai.structure.ConstantLong;
-import edu.uci.tai.structure.ConstantMethodref;
-import edu.uci.tai.structure.ConstantNameAndType;
-import edu.uci.tai.structure.ConstantString;
-import edu.uci.tai.structure.ConstantUtf8;
-import edu.uci.tai.structure.Structure;
 
 public class ConstantPool 
 {
@@ -36,6 +24,7 @@ public class ConstantPool
 	public static final int CONSTANT_DOUBLE = 6;
 	public static final int CONSTANT_NAMEANDTYPE = 12;
 	public static final int CONSTANT_UTF8 = 1;
+	public static final int USED_BY_COMPILER = 0;
 
 	public ConstantPool(FileInputStream fis) throws IOException
 	{
@@ -51,17 +40,9 @@ public class ConstantPool
 		byte[] data = new byte[SIZE_OF_CONS_POOL_LENG];
 		fis.read(data);
 
-		ByteArrayInputStream bis = new ByteArrayInputStream(data);
+		int result = (int) Structure.valueFromBytes(data);
 
-		int result = 0;
-
-		for (int i = 0; i < SIZE_OF_CONS_POOL_LENG; i++)
-			result += bis.read();
-
-
-		// the first structure (0 structure) is used 
-		// by JVM internally
-		return result - 1; 		
+		return result - 1; // One is used by compiler and does not count;  		
 	}
 
 	private void parseStructures() throws IOException
@@ -104,9 +85,14 @@ public class ConstantPool
 			case CONSTANT_UTF8:
 				structures.add(new ConstantUtf8(fis));
 				break;
-			default:
+			case USED_BY_COMPILER:
+				// the first structure (0 structure) is used 
+				// by JVM internally
+				structures.add(new UsedByCompilerConstant(fis));
 				break;
-
+			default:
+				System.out.println("Unrecognizable Tag: " + tag + " at iteration: " + i);
+				break;
 			}
 		}
 	}
@@ -121,9 +107,9 @@ public class ConstantPool
 		
 		builder.append("\n");
 	
-		for (int i = 1; i <= structures.size(); i++)
+		for (int i = 0; i < structures.size(); i++)
 			builder.append(String.format("%d.", i))
-				.append(structures.get(i-1).toString())
+				.append(structures.get(i).toString())
 				.append("\n");
 		
 		builder.append("\n");

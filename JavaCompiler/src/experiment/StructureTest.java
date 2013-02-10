@@ -3,11 +3,14 @@ package experiment;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.io.File;
+import java.io.FileInputStream;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.uci.tai.structure.Structure;
+import edu.uci.tai.constantPool.Structure;
 
 public class StructureTest 
 {
@@ -35,7 +38,7 @@ public class StructureTest
 		bytes[0] = b1;
 		bytes[1] = b2;
 		
-		assertEquals(expected, Structure.intFromBytes(bytes));
+		assertEquals(expected, Structure.valueFromBytes(bytes));
 		
 		fail("Not yet implemented");
 	}

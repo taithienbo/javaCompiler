@@ -1,7 +1,9 @@
-package edu.uci.tai.parser;
+package edu.uci.tai.javaCompiler;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+
+import edu.uci.tai.constantPool.ConstantPool;
 
 
 public class Main 
@@ -44,6 +46,10 @@ public class Main
 		VersionNumber vn = new VersionNumber(fis);
 		ConstantPool cp = new ConstantPool(fis);
 		System.out.println(cp);
+		
+		// flag
+		while (fis.available() > 0)
+			System.out.println(fis.read());
 	}
 	
 	

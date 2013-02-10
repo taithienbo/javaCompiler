@@ -1,9 +1,8 @@
-package edu.uci.tai.structure;
+package edu.uci.tai.constantPool;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import edu.uci.tai.parser.ConstantPool;
 
 /**
  * The CONSTANT_NameAndType_info structure is used to represent a field or 

@@ -1,4 +1,4 @@
-package edu.uci.tai.structure;
+package edu.uci.tai.constantPool;
 
 import java.io.FileInputStream;
 import java.io.IOException;

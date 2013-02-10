@@ -58,7 +58,7 @@ public class BitManipulationTest
 		int bitPos = 9;
 		int expectedA = 512;
 		
-		assertEquals(expectedA, bitMan.intFromBit(bitPos));
+		assertEquals(expectedA, (int) bitMan.valueFromBit(bitPos));
 	}
 	
 	@Test
@@ -68,7 +68,7 @@ public class BitManipulationTest
 		int startPos = 7;
 		int number = 1;
 		int expected = 1;
-		assertEquals(expected, bitMan.intFromBits(number, startPos));
+		assertEquals(expected, (int) bitMan.valueFromBits(number, startPos));
 		
 		System.out.println();
 		
@@ -76,14 +76,14 @@ public class BitManipulationTest
 	    startPos = 15;
 	    number = 2;
 	    expected = 512;
-		assertEquals(expected, bitMan.intFromBits(number, startPos));
+		assertEquals(expected, (int) bitMan.valueFromBits(number, startPos));
 		
 		System.out.println();
 		
 	    startPos = 23;
 	    number = 18;
 	    expected = 1179648;
-		assertEquals(expected, bitMan.intFromBits(number, startPos));
+		assertEquals(expected, (int) bitMan.valueFromBits(number, startPos));
 		
 	
 	}

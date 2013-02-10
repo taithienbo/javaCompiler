@@ -1,11 +1,10 @@
-package edu.uci.tai.structure;
+package edu.uci.tai.constantPool;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import edu.uci.tai.parser.ConstantPool;
 
 public class ConstantUtf8 extends Structure
 {

@@ -38,4 +38,5 @@ public class BitManipulation
 		return result;
 	}
 	
+
 }
