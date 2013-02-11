@@ -6,7 +6,7 @@
 *.ear
 
 #generated files
-bin/
+/bin/
 
 #DS_Store
 .DS_Store
