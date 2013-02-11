@@ -46,11 +46,11 @@ public class Main
 		VersionNumber vn = new VersionNumber(fis);
 		ConstantPool cp = new ConstantPool(fis);
 		System.out.println(cp);
-		
+		AccessFlag acessFlag = new AccessFlag(fis);
+		System.out.println(acessFlag);
+	
 		// flag
 		while (fis.available() > 0)
 			System.out.println(fis.read());
 	}
-	
-	
 }

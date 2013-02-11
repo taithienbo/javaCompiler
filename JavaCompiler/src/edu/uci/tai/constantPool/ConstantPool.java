@@ -1,6 +1,6 @@
 package edu.uci.tai.constantPool;
 
-import java.io.ByteArrayInputStream;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class ConstantPool
 	public static final int CONSTANT_DOUBLE = 6;
 	public static final int CONSTANT_NAMEANDTYPE = 12;
 	public static final int CONSTANT_UTF8 = 1;
-	public static final int USED_BY_COMPILER = 0;
+	public static final int USED_BY_COMPILER = -1;
 
 	public ConstantPool(FileInputStream fis) throws IOException
 	{
