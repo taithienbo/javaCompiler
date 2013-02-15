@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import edu.uci.tai.constantPool.ConstantPool;
+import edu.uci.tai.representation.InterfaceArray;
 import edu.uci.tai.representation.MagicNumber;
 import edu.uci.tai.representation.VersionNumber;
 
@@ -14,9 +15,10 @@ public class Main
 	private MagicNumber magicNumber;
 	private VersionNumber versionNumber;
 	private ConstantPool constantPool;
-	private edu.uci.tai.representation.Class thisClass;
 	private AccessFlag accessFlag;
-	
+	private edu.uci.tai.representation.Class thisClass;
+	private edu.uci.tai.representation.Class superClass;
+	private InterfaceArray interfaces;
 
 	public Main(String fileName)
 	{
@@ -26,8 +28,17 @@ public class Main
 	
 	public static void main(String[] args) throws IOException
 	{
-		Main parser = new Main("aaa.class");
-		parser.parse();
+		String[] testFiles = new String[]{"aaa.class", "Test1.class", "Test2.class",
+				"Test3.class", "Test4.class", "Test5.class"};
+		
+		for (String testFile : testFiles)
+		{
+			System.out.println("----------------------" + testFile + "---------------------------");
+			Main parser = new Main(testFile);
+			parser.parse();
+			System.out.println("\n");
+		}
+	
 	}
 	
 	public void parse() throws IOException
@@ -40,11 +51,13 @@ public class Main
 		constantPool = new ConstantPool(fis);
 		System.out.println(constantPool);
 		AccessFlag acessFlag = new AccessFlag(fis);
-		
-		thisClass = new edu.uci.tai.representation.Class(fis);
 		System.out.println(acessFlag);
+		thisClass = new edu.uci.tai.representation.Class(fis);
 		System.out.println(thisClass);
-		
+		superClass = new edu.uci.tai.representation.Class(fis).new SuperClass(fis);
+		System.out.println(superClass);
+		interfaces = new InterfaceArray(fis);
+		System.out.println(interfaces);
 		// flag
 		while (fis.available() > 0)
 			System.out.println(fis.read());

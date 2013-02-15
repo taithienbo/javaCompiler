@@ -50,4 +50,26 @@ public class Class
 		return builder.toString();
 	}
 	
+	
+	public class SuperClass extends Class
+	{
+
+		public SuperClass(FileInputStream fis) throws IOException 
+		{
+			super(fis);
+			// TODO Auto-generated constructor stub
+		}
+		
+		@Override
+		public String toString()
+		{
+			StringBuilder builder = new StringBuilder();
+			builder.append("super_class: \n");
+			builder.append(String.format("Name index: %d", nameIndex()));
+			builder.append("\n");
+			return builder.toString();
+		}
+		
+	}
+	
 }

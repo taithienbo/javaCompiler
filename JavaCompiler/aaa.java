@@ -1,8 +1,8 @@
-   class aaa
-        {
-	   		private long longValue = 464654646464646L;
-	   		
-           public void abc(int i)
-            {
-            }
-        }
+class aaa
+{
+	
+
+public static void abc(int i)
+{
+}
+}
