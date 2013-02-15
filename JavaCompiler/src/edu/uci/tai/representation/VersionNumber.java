@@ -1,4 +1,4 @@
-package edu.uci.tai.javaCompiler;
+package edu.uci.tai.representation;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;

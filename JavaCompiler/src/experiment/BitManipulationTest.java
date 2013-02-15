@@ -28,9 +28,19 @@ public class BitManipulationTest
 		int number = 33;
 		
 		assertTrue(bitMan.getBit(number, 0));
-		assertFalse(bitMan.getBit(number, 1));
+		for (int i = 1; i < 5; i++)
+			assertFalse(bitMan.getBit(number, i));
+		
 		assertTrue(bitMan.getBit(number, 5));
 		
+		number = 32;
+		for (int i = 0; i < 8; i++)
+		{
+			if (i != 5)
+				assertFalse(bitMan.getBit(number, i));
+			else
+				assertTrue(bitMan.getBit(number, i));
+		}
 		number = 1024;
 		assertTrue(bitMan.getBit(number, 10));
 		

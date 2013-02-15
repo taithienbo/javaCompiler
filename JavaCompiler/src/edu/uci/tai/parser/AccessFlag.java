@@ -1,4 +1,4 @@
-package edu.uci.tai.javaCompiler;
+package edu.uci.tai.parser;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -85,6 +85,7 @@ public class AccessFlag
 		if (isAbstract())
 			builder.append("ACC_ABSTRACT \t");
 		
+		builder.append("\n");
 		return builder.toString();
 	}
 	
