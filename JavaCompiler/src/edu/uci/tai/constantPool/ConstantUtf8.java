@@ -1,6 +1,5 @@
 package edu.uci.tai.constantPool;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -42,9 +41,6 @@ public class ConstantUtf8 extends Structure
 	
 	public String data() throws IOException
 	{
-		
-		ByteArrayInputStream bis = new ByteArrayInputStream(data);
-		
 		StringBuilder builder = new StringBuilder();
 		builder.append(new String(data));
 		

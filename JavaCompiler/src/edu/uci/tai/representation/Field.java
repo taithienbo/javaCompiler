@@ -56,11 +56,13 @@ public class Field
 	{
 		byte[] attributeCount = new byte[ATTRIBUTE_COUNT_NUM_BYTES];
 		fis.read(attributeCount);
-				
+
 		attributes = new Attribute[(int) Structure.valueFromBytes(attributeCount)];
+		System.out.println("num of attributes: " + attributes.length);
+		AttributeParser parser = new AttributeParser(fis);
 		
 		for (int i = 0; i < attributes.length; i++)
-			attributes[i] = new Attribute(fis);
+			attributes[i] = parser.parseAttribute();
 	}
 	
 	public int nameIndex()

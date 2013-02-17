@@ -98,6 +98,11 @@ public class ConstantPool
 			}
 		}
 	}
+	
+	public Structure getStructure(int index)
+	{
+		return structureMap.get(index);
+	}
 
 	@Override
 	public String toString()

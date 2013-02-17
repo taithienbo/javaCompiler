@@ -15,7 +15,7 @@ public class Main
 	private String fileName;
 	private MagicNumber magicNumber;
 	private VersionNumber versionNumber;
-	private ConstantPool constantPool;
+	public static ConstantPool constantPool;
 	private AccessFlag accessFlag;
 	private edu.uci.tai.representation.Class thisClass;
 	private edu.uci.tai.representation.Class superClass;
@@ -40,6 +40,7 @@ public class Main
 			Main parser = new Main(testFile);
 			parser.parse();
 			System.out.println("\n");
+			break;
 		}
 	
 	}
