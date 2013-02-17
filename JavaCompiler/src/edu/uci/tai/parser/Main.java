@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import edu.uci.tai.constantPool.ConstantPool;
+import edu.uci.tai.representation.FieldArray;
 import edu.uci.tai.representation.InterfaceArray;
 import edu.uci.tai.representation.MagicNumber;
 import edu.uci.tai.representation.VersionNumber;
@@ -19,6 +20,8 @@ public class Main
 	private edu.uci.tai.representation.Class thisClass;
 	private edu.uci.tai.representation.Class superClass;
 	private InterfaceArray interfaces;
+	private FieldArray fields;
+	
 
 	public Main(String fileName)
 	{
@@ -58,6 +61,8 @@ public class Main
 		System.out.println(superClass);
 		interfaces = new InterfaceArray(fis);
 		System.out.println(interfaces);
+		fields = new FieldArray(fis);
+		System.out.println(fields);
 		// flag
 		while (fis.available() > 0)
 			System.out.println(fis.read());

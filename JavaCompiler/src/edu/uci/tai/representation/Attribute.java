@@ -1,5 +1,13 @@
 package edu.uci.tai.representation;
 
-public class Attribute {
+import java.io.FileInputStream;
 
+public class Attribute 
+{
+	private FileInputStream fis;
+
+	public Attribute(FileInputStream fis)
+	{
+		this.fis = fis;
+	}
 }
