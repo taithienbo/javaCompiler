@@ -175,8 +175,7 @@ public class Field
 				builder.append("ACC_VOLATILE \t");
 			if (isTransient())
 				builder.append("ACC_TRANSIENT \t");
-			
-			builder.append("\n");
+
 			return builder.toString();
 		}
 	}

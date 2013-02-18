@@ -26,7 +26,6 @@ public class AttributeParser
 		fis.read(nameIndex);
 		
 		int index = (int) Structure.valueFromBytes(nameIndex);
-		System.out.println("in attributeParser, nameIndex: " + index);
 		Structure structure = Main.constantPool.getStructure(index);
 		
 		if (structure instanceof ConstantUtf8)

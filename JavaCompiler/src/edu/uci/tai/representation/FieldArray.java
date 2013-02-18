@@ -23,9 +23,7 @@ public class FieldArray
 		fis.read(numFields);
 		
 		fields = new Field[(int) Structure.valueFromBytes(numFields)];
-		
-		System.out.println("In fieldArray, numFields = " + fields.length);
-		
+
 		for (int i = 0; i < fields.length; i++)
 			fields[i] = new Field(fis);
 	}
@@ -35,10 +33,10 @@ public class FieldArray
 	{
 		StringBuilder builder = new StringBuilder();
 		builder.append("fields_info[]: \n");
-		builder.append(String.format("length: %d \n", fields.length));
+		builder.append(String.format("length (number of fields) : %d \n", fields.length));
 		
 		for (Field field : fields)
-			builder.append(field).append("\n");
+			builder.append("\t").append(field).append("\n");
 		
 		return builder.toString();
 	}
