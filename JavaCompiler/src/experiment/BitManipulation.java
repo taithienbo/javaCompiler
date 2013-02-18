@@ -21,7 +21,6 @@ public class BitManipulation
 		return Math.pow(2, bitPosition);
 	}
 	
-
 	
 	public double valueFromBits(int number, int mostSignificantBitPos)
 	{
@@ -31,7 +30,6 @@ public class BitManipulation
 		{
 			if (getBit(number, i))		
 				result += valueFromBit(pos);
-	
 			pos--;
 		}
 		
