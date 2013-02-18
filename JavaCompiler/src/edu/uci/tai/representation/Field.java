@@ -58,7 +58,6 @@ public class Field
 		fis.read(attributeCount);
 
 		attributes = new Attribute[(int) Structure.valueFromBytes(attributeCount)];
-		System.out.println("num of attributes: " + attributes.length);
 		AttributeParser parser = new AttributeParser(fis);
 		
 		for (int i = 0; i < attributes.length; i++)

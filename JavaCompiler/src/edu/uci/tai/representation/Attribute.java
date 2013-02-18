@@ -33,7 +33,6 @@ public abstract class Attribute
 		StringBuilder builder = new StringBuilder();
 		builder.append(String.format("attribute_name: %s \n", name));
 		builder.append(String.format("attribute_length: %d \n", attributeLength));
-		builder.append("\n");
 		
 		return builder.toString();
 	}
