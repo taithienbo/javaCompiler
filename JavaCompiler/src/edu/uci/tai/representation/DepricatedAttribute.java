@@ -11,5 +11,7 @@ public class DepricatedAttribute extends Attribute
 		super(fis);
 		setName("Depricated");
 	}
+	
+	
 
 }
