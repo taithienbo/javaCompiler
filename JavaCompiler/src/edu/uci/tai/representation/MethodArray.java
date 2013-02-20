@@ -50,7 +50,7 @@ public class MethodArray
 		private int descriptorIndex;
 		private Attribute[] attributes;
 		
-		private static final int ACCESS_FLAGS_NUM_BYTES = 2;
+		
 		private static final int NAME_INDEX_NUM_BYTES = 2;
 		private static final int DESCRIPTOR_INDEX_NUM_BYTES = 2;
 		private static final int ATTRIBUTE_COUNT_NUM_BYTES = 2;

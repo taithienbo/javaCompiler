@@ -4,6 +4,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import edu.uci.tai.constantPool.ConstantPool;
+import edu.uci.tai.constantPool.Structure;
+import edu.uci.tai.representation.Attribute;
+import edu.uci.tai.representation.AttributeParser;
 import edu.uci.tai.representation.FieldArray;
 import edu.uci.tai.representation.InterfaceArray;
 import edu.uci.tai.representation.MagicNumber;
@@ -67,6 +70,12 @@ public class Main
 		System.out.println(fields);
 		methods = new MethodArray(fis);
 		System.out.println(methods);
+		byte[] attributeLengthBytes = new byte[2];
+		fis.read(attributeLengthBytes);
+		Attribute[] attributes = new Attribute[(int) Structure.valueFromBytes(attributeLengthBytes)];
+		for (int i = 0; i < attributes.length; i++)
+			attributes[i] = new AttributeParser(fis).parseAttribute();
+		System.out.println(attributes);
 		while (fis.available() > 0)
 			System.out.println(fis.read());
 

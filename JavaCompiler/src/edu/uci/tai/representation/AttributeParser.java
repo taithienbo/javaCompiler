@@ -30,8 +30,8 @@ public class AttributeParser
 		
 		if (structure instanceof ConstantUtf8)
 			constantUtf8 = (ConstantUtf8) structure;
-		else
-			System.out.println("unable to retrieve attribute info with index: " + index);
+	/*	else
+			System.out.println("unable to retrieve attribute info with index: " + index);*/
 			/*throw new RuntimeException(String.format("structure at index %d is %s not %s", 
 					index, structure.getClass().getSimpleName(), 
 					ConstantUtf8.class.getSimpleName()));*/
@@ -39,8 +39,7 @@ public class AttributeParser
 	
 	public Attribute parseAttribute() throws IOException
 	{
-		if (constantUtf8 == null)
-			return new UnRegcognizeAttribute(fis);
+	
 		
 		String attributeName = constantUtf8.data();
 		
@@ -62,7 +61,8 @@ public class AttributeParser
 			return new LocalVariableTableAttribute(fis);
 		else if (attributeName.equals("Deprecated"))
 			return new DepricatedAttribute(fis);
-		
+		else
+			System.out.println("--------------------------------unrecognizeable attribute: " + attributeName);
 		return new UnRegcognizeAttribute(fis);
 			
 	}
