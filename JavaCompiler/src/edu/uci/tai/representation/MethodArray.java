@@ -27,7 +27,7 @@ public class MethodArray
 		fis.read(methodCount);
 		
 		methods = new Method[(int) Structure.valueFromBytes(methodCount)];
-		
+		System.out.println(String.format("number of methods: %d", methods.length));
 		for (int i = 0; i < methods.length; i++)
 			methods[i] = new Method();
 	}
@@ -87,7 +87,7 @@ public class MethodArray
 			byte[] length = new byte[ATTRIBUTE_COUNT_NUM_BYTES];
 			fis.read(length);
 			attributes = new Attribute[(int) Structure.valueFromBytes(length)];
-			
+			System.out.println("Number of attributes I found is: " + attributes.length);
 			for (int i = 0; i < attributes.length; i++)
 				attributes[i] = new AttributeParser(fis).parseAttribute();
 		}

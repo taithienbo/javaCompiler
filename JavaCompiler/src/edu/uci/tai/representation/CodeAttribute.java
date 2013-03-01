@@ -1,8 +1,10 @@
 package edu.uci.tai.representation;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import edu.uci.tai.constantPool.Structure;
 
@@ -61,22 +63,16 @@ public class CodeAttribute extends Attribute
 	{
 		codes = new ArrayList<String>();
 		
-		long buffer = 1000L;
 		long available = codeLength;
-		
-		while (true)
-		{
-			if (available <= 0)
-				break;
-			
-			if (available < buffer)
-				buffer = available;
-			
-			byte[] data = new byte[(int)buffer];
+
+			byte[] data = new byte[(int)available];
 			fis.read(data);
-			codes.add(new String(data));
-			available = available - buffer;
-		}
+			ByteArrayInputStream bis = new ByteArrayInputStream(data);
+			
+			Scanner in = new Scanner(bis);
+			while (in.hasNext())
+				codes.add(in.next());
+			in.close();
 	}
 	
 	private void initExceptionTable() throws IOException

@@ -1,5 +1,6 @@
 package edu.uci.tai.representation;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -26,13 +27,12 @@ public class Class
 	{
 		this.fis = fis;
 		initialize();
-
 	}
 	
 	private void initialize() throws IOException
 	{
 		fis.read(data);
-		
+	
 	}
 	
 	public int nameIndex()
@@ -53,11 +53,11 @@ public class Class
 	
 	public class SuperClass extends Class
 	{
-
+		private int nameIndex;
+		
 		public SuperClass(FileInputStream fis) throws IOException 
 		{
 			super(fis);
-			// TODO Auto-generated constructor stub
 		}
 		
 		@Override

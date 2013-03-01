@@ -2,6 +2,8 @@ package edu.uci.tai.constantPool;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 import experiment.BitManipulation;
 
@@ -23,7 +25,7 @@ public abstract class Structure
 	 */
 	public static double valueFromBytes(byte[] data)
 	{
-		double result = 0;
+	double result = 0;
 		int startPos = data.length * 8 -1;
 		
 		ByteArrayInputStream bis = new ByteArrayInputStream(data);
@@ -37,7 +39,8 @@ public abstract class Structure
 			result += bitMan.valueFromBits(number, startPos);
 			startPos = startPos - 8;
 		}
-		
+
+	
 		return result;
 	}
 	

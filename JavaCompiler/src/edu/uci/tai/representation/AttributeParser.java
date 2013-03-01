@@ -24,23 +24,17 @@ public class AttributeParser
 	{
 		byte[] nameIndex = new byte[NAME_INDEX_NUM_BYTES];
 		fis.read(nameIndex);
-		
+
 		int index = (int) Structure.valueFromBytes(nameIndex);
 		Structure structure = Main.constantPool.getStructure(index);
 		
 		if (structure instanceof ConstantUtf8)
 			constantUtf8 = (ConstantUtf8) structure;
-	/*	else
-			System.out.println("unable to retrieve attribute info with index: " + index);*/
-			/*throw new RuntimeException(String.format("structure at index %d is %s not %s", 
-					index, structure.getClass().getSimpleName(), 
-					ConstantUtf8.class.getSimpleName()));*/
 	}
 	
 	public Attribute parseAttribute() throws IOException
 	{
 	
-		
 		String attributeName = constantUtf8.data();
 		
 		if (attributeName.equals("SourceFile"))
