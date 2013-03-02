@@ -11,13 +11,13 @@ public class FieldArray
 	private static final int FIELD_COUNT_NUM_BYTES = 2;
 	private Field[] fields;
 	
-	public FieldArray(FileInputStream fis) throws IOException
+	public FieldArray(FileInputStream fis) throws Exception
 	{
 		this.fis = fis;
 		initialize();
 	}
 	
-	private void initialize() throws IOException
+	private void initialize() throws Exception
 	{
 		byte[] numFields = new byte[FIELD_COUNT_NUM_BYTES];
 		fis.read(numFields);

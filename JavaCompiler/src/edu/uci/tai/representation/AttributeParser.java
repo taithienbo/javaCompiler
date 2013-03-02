@@ -12,12 +12,18 @@ public class AttributeParser
 	private FileInputStream fis;
 	private static final int NAME_INDEX_NUM_BYTES = 2;
 	private ConstantUtf8 constantUtf8;
-	
+	private long byteCodeLength;
 	
 	public AttributeParser(FileInputStream fis) throws IOException
 	{
 		this.fis = fis;
 		init();
+	}
+	
+	public AttributeParser(FileInputStream fis, long byteCodeLength) throws IOException
+	{
+		this (fis);
+		this.byteCodeLength = byteCodeLength;
 	}
 	
 	private void init() throws IOException
@@ -32,7 +38,7 @@ public class AttributeParser
 			constantUtf8 = (ConstantUtf8) structure;
 	}
 	
-	public Attribute parseAttribute() throws IOException
+	public Attribute parseAttribute() throws Exception
 	{
 	
 		String attributeName = constantUtf8.data();
@@ -55,8 +61,8 @@ public class AttributeParser
 			return new LocalVariableTableAttribute(fis);
 		else if (attributeName.equals("Deprecated"))
 			return new DepricatedAttribute(fis);
-		else
-			System.out.println("--------------------------------unrecognizeable attribute: " + attributeName);
+		else if (attributeName.equals("StackMapTable"))
+			return new StackMapTableAttribute(fis, byteCodeLength);
 		return new UnRegcognizeAttribute(fis);
 			
 	}

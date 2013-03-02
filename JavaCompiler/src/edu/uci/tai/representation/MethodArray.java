@@ -3,8 +3,7 @@ package edu.uci.tai.representation;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+
 
 import edu.uci.tai.constantPool.Structure;
 import experiment.BitManipulation;
@@ -15,19 +14,19 @@ public class MethodArray
 	private static final int METHOD_COUNT_NUM_BYTEs = 2;
 	private Method[] methods;
 	
-	public MethodArray(FileInputStream fis) throws IOException
+	public MethodArray(FileInputStream fis) throws Exception
 	{
 		this.fis = fis;
 		init();
 	}
 	
-	private void init() throws IOException
+	private void init() throws Exception
 	{
 		byte[] methodCount = new byte[METHOD_COUNT_NUM_BYTEs];
 		fis.read(methodCount);
 		
 		methods = new Method[(int) Structure.valueFromBytes(methodCount)];
-		System.out.println(String.format("number of methods: %d", methods.length));
+
 		for (int i = 0; i < methods.length; i++)
 			methods[i] = new Method();
 	}
@@ -36,7 +35,7 @@ public class MethodArray
 	public String toString()
 	{
 		StringBuilder builder = new StringBuilder();
-		builder.append(String.format("method_count: %d", methods.length));
+		builder.append(String.format("method_count: %d", methods.length)).append("\n");
 		for (Method m : methods)
 			builder.append(m);
 		
@@ -55,7 +54,7 @@ public class MethodArray
 		private static final int DESCRIPTOR_INDEX_NUM_BYTES = 2;
 		private static final int ATTRIBUTE_COUNT_NUM_BYTES = 2;
 		
-		public Method() throws IOException
+		public Method() throws Exception
 		{
 			initAcessFlag();
 			initNameIndex();
@@ -82,12 +81,12 @@ public class MethodArray
 			descriptorIndex = (int) Structure.valueFromBytes(indexBytes);
 		}
 		
-		private void initAttributes() throws IOException
+		private void initAttributes() throws Exception
 		{
 			byte[] length = new byte[ATTRIBUTE_COUNT_NUM_BYTES];
 			fis.read(length);
 			attributes = new Attribute[(int) Structure.valueFromBytes(length)];
-			System.out.println("Number of attributes I found is: " + attributes.length);
+
 			for (int i = 0; i < attributes.length; i++)
 				attributes[i] = new AttributeParser(fis).parseAttribute();
 		}
@@ -100,7 +99,9 @@ public class MethodArray
 			builder.append(accessFlag);
 			builder.append(String.format("name_index: %d \n", nameIndex));
 			builder.append(String.format("descriptor_index: %d \n", descriptorIndex));
-			builder.append(attributes);
+			builder.append(String.format("attributes_count: %d \n", attributes.length));
+			for (Attribute a : attributes)
+				builder.append(a);
 			
 			return builder.toString();
 		}

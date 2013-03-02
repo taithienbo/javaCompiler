@@ -22,7 +22,7 @@ public class Field
 	private int nameIndex;
 	private int descriptorIndex;
 	
-	public Field (FileInputStream fis) throws IOException
+	public Field (FileInputStream fis) throws Exception
 	{
 		this.fis = fis;
 		initAccessFlag();
@@ -52,7 +52,7 @@ public class Field
 		descriptorIndex = (int) Structure.valueFromBytes(dIndex);
 	}
 	
-	private void initAttributes() throws IOException
+	private void initAttributes() throws Exception
 	{
 		byte[] attributeCount = new byte[ATTRIBUTE_COUNT_NUM_BYTES];
 		fis.read(attributeCount);

@@ -34,7 +34,7 @@ public class Main
 		
 	}
 	
-	public static void main(String[] args) throws IOException
+	public static void main(String[] args) throws Exception
 	{
 		String[] testFiles = new String[]{ "Test1.class", "Test2.class",
 				"Test3.class", "Test4.class", "Test5.class"};
@@ -50,7 +50,7 @@ public class Main
 	
 	}
 	
-	public void parse() throws IOException
+	public void parse() throws Exception
 	{
 		FileInputStream fis = new FileInputStream(new File(fileName));
 		printOutFormatted(fis);
@@ -61,7 +61,7 @@ public class Main
 	}
 	
 
-	private void printOutFormatted(FileInputStream fis) throws IOException
+	private void printOutFormatted(FileInputStream fis) throws Exception
 	{
 		magicNumber = new MagicNumber(fis);
 		versionNumber = new VersionNumber(fis);
@@ -77,7 +77,10 @@ public class Main
 		System.out.println(interfaces);
 		fields = new FieldArray(fis);
 		System.out.println(fields);
-	}
+		MethodArray methods = new MethodArray(fis);
+		System.out.println(methods);
+	}	
+	
 	public void printOutRaw(FileInputStream fis) throws IOException
 	{
 		while (fis.available() > 0)

@@ -34,7 +34,7 @@ public class ConstantValueAttribute extends Attribute
 	public String toString()
 	{
 		StringBuilder builder = new StringBuilder(super.toString());
-		builder.append(String.format("constant_value_index", consValueIndex())).append("\n");
+		builder.append(String.format("constant_value_index %d", consValueIndex())).append("\n");
 		
 		return builder.toString();
 	}

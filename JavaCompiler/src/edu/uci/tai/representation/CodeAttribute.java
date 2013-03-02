@@ -4,7 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
+
 
 import edu.uci.tai.constantPool.Structure;
 
@@ -23,7 +23,7 @@ public class CodeAttribute extends Attribute
 	private ExceptionTable[] exceptionTables;
 	private Attribute[] attributes;
 	
-	public CodeAttribute(FileInputStream fis) throws IOException 
+	public CodeAttribute(FileInputStream fis) throws Exception 
 	{
 		super(fis);
 		setName("Code");
@@ -67,12 +67,10 @@ public class CodeAttribute extends Attribute
 
 			byte[] data = new byte[(int)available];
 			fis.read(data);
-			ByteArrayInputStream bis = new ByteArrayInputStream(data);
 			
-			Scanner in = new Scanner(bis);
-			while (in.hasNext())
-				codes.add(in.next());
-			in.close();
+			ByteArrayInputStream bis = new ByteArrayInputStream(data);
+			while (bis.available() > 0)
+				codes.add(String.format("%d", bis.read()));
 	}
 	
 	private void initExceptionTable() throws IOException
@@ -86,7 +84,7 @@ public class CodeAttribute extends Attribute
 			exceptionTables[i] = new ExceptionTable(fis);
 	}
 	
-	private void initAttributes() throws IOException
+	private void initAttributes() throws Exception
 	{
 		byte[] lengthByte = new byte[ATTRIBUTE_COUNT_NUMB_BYTES];
 		fis.read(lengthByte);
@@ -94,7 +92,7 @@ public class CodeAttribute extends Attribute
 		attributes = new Attribute[(int) Structure.valueFromBytes(lengthByte)];
 		
 		for (int i = 0; i < attributes.length; i++)
-			attributes[i] = new AttributeParser(fis).parseAttribute();
+			attributes[i] = new AttributeParser(fis, codeLength).parseAttribute();
 	}
 	
 	@Override
