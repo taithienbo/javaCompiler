@@ -20,7 +20,8 @@ public class AttributeParser
 		init();
 	}
 	
-	public AttributeParser(FileInputStream fis, long byteCodeLength) throws IOException
+	public AttributeParser(FileInputStream fis, long byteCodeLength) 
+						throws IOException
 	{
 		this (fis);
 		this.byteCodeLength = byteCodeLength;

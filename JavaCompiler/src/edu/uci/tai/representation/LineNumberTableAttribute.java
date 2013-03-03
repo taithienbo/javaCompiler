@@ -33,7 +33,8 @@ public class LineNumberTableAttribute extends Attribute
 	{
 		StringBuilder builder = new StringBuilder();
 		builder.append(super.toString());
-		builder.append(String.format("line_number_table_length: %d \n", lineNumberTables.length));
+		builder.append(String.format("line_number_table_length: %d \n", 
+				lineNumberTables.length));
 		
 		for (LineNumberTable table : lineNumberTables)
 			builder.append(table);

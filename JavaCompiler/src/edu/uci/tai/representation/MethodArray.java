@@ -101,7 +101,7 @@ public class MethodArray
 			builder.append(String.format("descriptor_index: %d \n", descriptorIndex));
 			builder.append(String.format("attributes_count: %d \n", attributes.length));
 			for (Attribute a : attributes)
-				builder.append(a);
+				builder.append(a).append("\n");
 			
 			return builder.toString();
 		}

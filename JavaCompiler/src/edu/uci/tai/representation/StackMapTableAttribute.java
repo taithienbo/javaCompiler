@@ -28,12 +28,24 @@ public class StackMapTableAttribute extends Attribute
 		init();
 	}
 	
+	@Override
+	public String toString()
+	{
+		StringBuilder builder = new StringBuilder();
+		builder.append(String.format("number of stack_map_frame " +
+				"entries: %d", entries.length)).append("\n");
+		for (StackMapFrame e : entries)
+			builder.append(e).append("\n");
+		return builder.toString();
+	}
+	
 	public void init() throws Exception
 	{
 		uOffSetNumBytes = byteCodeLength > 65535 ? 4 : 2;
 		
 		// for the purpose of this project, it shoudl be suffice to skip over this attribute
 		byte[] numEntriesBytes = new byte[uOffSetNumBytes];
+		fis.read(numEntriesBytes);
 		int entriesCount = (int) Structure.valueFromBytes(numEntriesBytes);
 		entries = new StackMapFrame[entriesCount];
 		for (int i = 0; i < entries.length; i++)
@@ -94,6 +106,16 @@ public class StackMapTableAttribute extends Attribute
 			offsetDelta = (long) Structure.valueFromBytes(offsetDeltaBytes);
 		}
 		
+		@Override
+		public String toString()
+		{
+			StringBuilder builder = new StringBuilder(super.toString());
+			builder.append("chop_frame").append("\n");
+			builder.append(String.format("offset_delta: %d", offsetDelta));
+			builder.append("\n");
+			return builder.toString();
+		}
+		
 	}
 	
 	public class FullFrame extends StackMapFrame
@@ -112,6 +134,28 @@ public class StackMapTableAttribute extends Attribute
 			initOffSetDelta();
 			initLocals();
 			initStack();
+		}
+		
+		@Override
+		public String toString()
+		{
+			StringBuilder builder = new StringBuilder(super.toString());
+			builder.append("full_frame").append("\n")
+				.append(String.format("offset_delta: %d", offsetDelta))
+				.append("\n")
+				.append(String.format("number_of_locals: %d", locals.length))
+				.append("\n");
+			
+			for (VerificationInfo local: locals)
+				builder.append(local).append("\n");
+			builder.append("\n");
+			builder.append
+			(String.format("number_of_stack_items: %d", stackItems.length));
+			builder.append("\n");
+			for (VerificationInfo stack : stackItems)
+				builder.append(stack).append("\n");
+			
+			return builder.toString();
 		}
 		
 		public void initOffSetDelta() throws IOException
@@ -154,6 +198,19 @@ public class StackMapTableAttribute extends Attribute
 			initVerificationInfos();
 		}
 		
+		@Override
+		public String toString()
+		{
+			StringBuilder builder = new StringBuilder(super.toString());
+			builder.append("append_frame").append("\n");
+			builder.append(String.format("offset_delta: %d \n", offsetDelta));
+			builder.append(String.format
+					("number_of_locals: %d", verInfos.length)).append("\n");
+			for (VerificationInfo local : verInfos)
+				builder.append(local).append("\n");
+			return builder.toString();
+		}
+		
 		public void initOffsetDelta() throws IOException
 		{
 			byte[] offsetDeltaBytes = new byte[uOffSetNumBytes];
@@ -175,14 +232,26 @@ public class StackMapTableAttribute extends Attribute
 	public class SameFrameExtended extends StackMapFrame
 	{
 		int offsetDelta;
-		public SameFrameExtended(int tag) throws IOException {
+		
+		public SameFrameExtended(int tag) throws IOException 
+		{
 			super(tag);
 			byte[] offsetDeltaBytes = new byte[uOffSetNumBytes];
 			fis.read(offsetDeltaBytes);
 			offsetDelta = (int) Structure.valueFromBytes(offsetDeltaBytes);
 		}
 		
+		@Override
+		public String toString()
+		{
+			StringBuilder builder = new StringBuilder(super.toString());
+			builder.append("same_frame_extended").append("\n");
+			builder.append(String.format("offset_delta: %d", offsetDelta));
+			builder.append("\n");
+			return builder.toString();
+		}
 	}
+	
 	public class SameLocal1StackFrameExtended extends StackMapFrame
 	{
 		private int offsetDelta;
@@ -195,6 +264,17 @@ public class StackMapTableAttribute extends Attribute
 			super(tag);
 			initOffsetDelta();
 			initStack();
+		}
+		
+		@Override
+		public String toString()
+		{
+			StringBuilder builder = new StringBuilder(super.toString());
+			builder.append("same_local_stack_frame_extended").append("\n");
+			builder.append
+				(String.format("offset_delta: %d", offsetDelta)).append("\n");
+			builder.append(stack);
+			return builder.toString();
 		}
 		
 		public void initOffsetDelta() throws IOException
@@ -213,14 +293,39 @@ public class StackMapTableAttribute extends Attribute
 	public class SameLocal1StackItemFrame extends StackMapFrame
 	{
 		private VerificationInfo verificationInfo;
+		private int offsetDelta;
 		
+		private static final int OFFSET_DELTA_NUM_BYTES = 2;
 		
 		public SameLocal1StackItemFrame(int tag) throws Exception 
 		{
 			super(tag);
-			
+			initOffsetDelta();
+			initStack();
+		}
+		
+		@Override
+		public String toString()
+		{
+			StringBuilder builder = new StringBuilder(super.toString());
+			builder.append("same_local_1_stack_item_frame").append("\n");
+			builder.append
+				(String.format("offset_delta: %d", offsetDelta)).append("\n");
+			builder.append(verificationInfo);
+			return builder.toString();
+		}
+		
+		private void initStack() throws Exception
+		{
 			int verificatinInfoTag = fis.read();
 			verificationInfo = verificationInfoFromTag(verificatinInfoTag);
+		}
+		
+		private void initOffsetDelta() throws IOException
+		{
+			byte[] offsetDeltaBytes = new byte[OFFSET_DELTA_NUM_BYTES];
+			fis.read(offsetDeltaBytes);
+			offsetDelta = (int) Structure.valueFromBytes(offsetDeltaBytes);
 		}
 	}
 	
@@ -232,6 +337,12 @@ public class StackMapTableAttribute extends Attribute
 		{
 			this.tag = tag;
 		}
+		
+		@Override
+		public String toString()
+		{
+			return String.format("stack_map_frame_tag: %d \n", tag);
+		}
 	}
 	
 	public class SameFrame extends StackMapFrame
@@ -240,8 +351,13 @@ public class StackMapTableAttribute extends Attribute
 		public SameFrame(int tag) throws IOException 
 		{
 			super(tag);
-			// TODO Auto-generated constructor stub
 		}	
+		
+		@Override
+		public String toString()
+		{
+			return String.format("%s \n %s \n", super.toString(), "same_frame");
+		}
 	}
 	
 
@@ -281,6 +397,11 @@ public class StackMapTableAttribute extends Attribute
 			this.tag = tag;
 		}
 		
+		@Override
+		public String toString()
+		{
+			return String.format("verification_info_tag: %d \n", tag);
+		}
 	
 	}
 	
@@ -290,6 +411,13 @@ public class StackMapTableAttribute extends Attribute
 		{
 			super(tag);
 		}
+		
+		@Override
+		public String toString()
+		{
+			return String.format
+					("%s \n %s", super.toString(), "top_variable_info");
+		}
 	}
 	
 	public class IntegerVariableInfo extends VerificationInfo
@@ -297,6 +425,13 @@ public class StackMapTableAttribute extends Attribute
 		public IntegerVariableInfo(int tag)
 		{
 			super(tag);
+		}
+		
+		@Override
+		public String toString()
+		{
+			return String.format
+					("%s \n %s", super.toString(), "integer_variable_info");
 		}
 	}
 
@@ -306,6 +441,13 @@ public class StackMapTableAttribute extends Attribute
 		{
 			super(tag);
 		}
+		
+		@Override
+		public String toString()
+		{
+			return String.format
+					("%s \n %s", super.toString(), "float_variable_info");
+		}
 	}
 	
 	public class LongVariableInfo extends VerificationInfo
@@ -313,6 +455,13 @@ public class StackMapTableAttribute extends Attribute
 		public LongVariableInfo(int tag)
 		{
 			super(tag);
+		}
+		
+		@Override
+		public String toString()
+		{
+			return String.format
+					("%s \n %s", super.toString(), "long_variable_info");
 		}
 	}
 	
@@ -322,6 +471,13 @@ public class StackMapTableAttribute extends Attribute
 		{
 			super(tag);
 		}
+		
+		@Override
+		public String toString()
+		{
+			return String.format
+					("%s \n %s", super.toString(), "double_variable_info");
+		}
 	}
 	
 	public class NullVariableInfo extends VerificationInfo
@@ -330,6 +486,13 @@ public class StackMapTableAttribute extends Attribute
 		{
 			super(tag);
 		}
+		
+		@Override
+		public String toString()
+		{
+			return String.format
+					("%s \n %s", super.toString(), "null_variable_info");
+		}
 	}
 	
 	public class UnitializedThisVariableInfo extends VerificationInfo
@@ -337,6 +500,14 @@ public class StackMapTableAttribute extends Attribute
 		public UnitializedThisVariableInfo(int tag)
 		{
 			super(tag);
+		}
+		
+		@Override
+		public String toString()
+		{
+			return String.format
+					("%s \n %s", super.toString(), 
+							"unitializedThis_variable_info");
 		}
 	}
 
@@ -355,6 +526,16 @@ public class StackMapTableAttribute extends Attribute
 			cpoolIndex = (int) Structure.valueFromBytes(cpoolIndexBytes);
 		}
 		
+		@Override
+		public String toString()
+		{
+			return String.format
+					("%s \n %s \n cpoolndex: %d", 
+					super.toString(), 
+					"object_variable_info",
+					cpoolIndex);
+		}
+		
 	}
 	
 	public class UnitializedVariableInfo extends VerificationInfo
@@ -367,6 +548,16 @@ public class StackMapTableAttribute extends Attribute
 			byte[] uOffSetBytes = new byte[uOffSetNumBytes];
 			fis.read(uOffSetBytes);
 			uOffSet = (int) Structure.valueFromBytes(uOffSetBytes);
+		}
+		
+		@Override
+		public String toString()
+		{
+			return String.format
+					("%s \n %s \n offset: %d", 
+					super.toString(), 
+					"unitialized_variable_info",
+					uOffSet);
 		}
 	}
 }

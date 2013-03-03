@@ -27,7 +27,8 @@ public class Main
 	private InterfaceArray interfaces;
 	private FieldArray fields;
 	private MethodArray methods;
-
+	private Attribute[] attributes;
+	
 	public Main(String fileName)
 	{
 		this.fileName = fileName;
@@ -45,7 +46,6 @@ public class Main
 			Main parser = new Main(testFile);
 			parser.parse();
 			System.out.println("\n");
-			break;
 		}
 	
 	}
@@ -79,6 +79,15 @@ public class Main
 		System.out.println(fields);
 		MethodArray methods = new MethodArray(fis);
 		System.out.println(methods);
+		byte[] attributesCount = new byte[2];
+		fis.read(attributesCount);
+		attributes = new Attribute
+				[(int) Structure.valueFromBytes(attributesCount)];
+		System.out.println(String.format("attributes_length: %d", attributes.length));
+		for (int i = 0; i < attributes.length; i++)
+			attributes[i] = new AttributeParser(fis).parseAttribute();
+		for (Attribute a : attributes)
+			System.out.println(a);
 	}	
 	
 	public void printOutRaw(FileInputStream fis) throws IOException
