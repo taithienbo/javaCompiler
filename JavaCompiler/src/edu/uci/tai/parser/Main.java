@@ -37,12 +37,13 @@ public class Main
 	
 	public static void main(String[] args) throws Exception
 	{
-		String[] testFiles = new String[]{ "Test1.class", "Test2.class",
-				"Test3.class", "Test4.class", "Test5.class"};
+		String[] testFiles = new String[]{  "Test1.class",
+				};
 		
 		for (String testFile : testFiles)
 		{
-			System.out.println("----------------------" + testFile + "---------------------------");
+			System.out.println("----------------------" + testFile 
+					+ "---------------------------");
 			Main parser = new Main(testFile);
 			parser.parse();
 			System.out.println("\n");

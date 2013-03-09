@@ -36,6 +36,7 @@ public class OpCodes
 	public static final int IF_ICMPLE   =    	164;
 	public static final int GOTO        =     	167;
 	public static final int RET         =     	169;
+	public static final int GETSTATIC   =     	178;	
 	public static final int INVOKESTATIC =    	184;
 	
 	
