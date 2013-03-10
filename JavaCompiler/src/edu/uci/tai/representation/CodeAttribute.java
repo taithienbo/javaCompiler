@@ -4,7 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import java.util.List;
 
 import edu.uci.tai.constantPool.Structure;
 
@@ -19,7 +19,7 @@ public class CodeAttribute extends Attribute
 	private int maxStack;
 	private int maxLocal;
 	private long codeLength;
-	private ArrayList<String> codes;
+	private ArrayList<Integer> codes;
 	private ExceptionTable[] exceptionTables;
 	private Attribute[] attributes;
 	
@@ -59,18 +59,33 @@ public class CodeAttribute extends Attribute
 		codeLength += (long) Structure.valueFromBytes(codeLengthBytes);
 	}
 	
+	public int getMaxStack()
+	{
+		return maxStack;
+	}
+	
+	public int getMaxLocal()
+	{
+		return maxLocal;
+	}
+	
 	private void initCodes() throws IOException
 	{
-		codes = new ArrayList<String>();
+		codes = new ArrayList<Integer>();
 		
 		long available = codeLength;
-
+		
 			byte[] data = new byte[(int)available];
 			fis.read(data);
-			
 			ByteArrayInputStream bis = new ByteArrayInputStream(data);
 			while (bis.available() > 0)
-				codes.add(String.format("%d", bis.read()));
+				codes.add(bis.read());
+			bis.close();
+	}
+		
+	public List<Integer> getCodes()
+	{
+		return codes;
 	}
 	
 	private void initExceptionTable() throws IOException

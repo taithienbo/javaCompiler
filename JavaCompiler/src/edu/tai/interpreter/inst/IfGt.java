@@ -27,7 +27,7 @@ public class IfGt extends Instruction
 		int value = state.popFromStack();
 		
 		if (value > 0)
-			state.setIndex(state.getIndex() + offset);
+			state.setIndex(state.getIndex() + offset - 1);
 		return state;
 	}
 }

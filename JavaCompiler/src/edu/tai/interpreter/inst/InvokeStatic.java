@@ -1,8 +1,13 @@
 package edu.tai.interpreter.inst;
 
+import java.io.IOException;
+
 import edu.tai.interpreter.State;
 import edu.uci.tai.constantPool.ConstantMethodref;
+import edu.uci.tai.constantPool.ConstantNameAndType;
+import edu.uci.tai.constantPool.ConstantUtf8;
 import edu.uci.tai.constantPool.Structure;
+import edu.uci.tai.parser.Main;
 
 public class InvokeStatic extends Instruction
 {
@@ -20,26 +25,44 @@ public class InvokeStatic extends Instruction
 	{
 		int targetMethodIndex = byteIndex1 << 8 | byteIndex2;
 		
-		Structure structure = state.getStructureFromConstantPool
-				(targetMethodIndex);
 		
-		try
-		{
-			if (structure == null)
-				throw new InstructionException
-				(String.format("Null Structure at index: %d \n" , 
-						targetMethodIndex));
+		System.out.println(String.format("inst.InvokeStatic" +
+				".execute() targetMethodIndex: %d", targetMethodIndex));
+	
+			try 
+			{
+				String targetMethodName = getMethodName(targetMethodIndex);
+				if (targetMethodName.equals("printInt"))
+				{
+					System.out.println(String.format
+						("%s: found printInt method", getClass().getName()));
+					int arg = state.popFromStack();
+					System.out.println
+						(String.format("%s: arg detected: %d", 
+								getClass().getName(), arg));
+				}
+					
+			} 
+			catch (IOException e) 
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
-			ConstantMethodref methodRef = (ConstantMethodref) structure;
-		}
-		catch (ClassCastException e)
-		{
-			throw new InstructionException
-			(String.format("Structure at index: %d has type: %s not type: %s\n",
-					structure.getClass().getName(),
-					ConstantMethodref.class.getName()));
-		}
 		return state;
+	}
+	
+	private String getMethodName(int methodRefIndex) throws IOException
+	{
+		Structure structure = Main.constantPool.getStructure(
+				(methodRefIndex));
+		ConstantMethodref methodRef = (ConstantMethodref) structure;
+		ConstantNameAndType nameAndType = (ConstantNameAndType) 
+				Main.constantPool
+				.getStructure(methodRef.nameAndTypeIndex());
+		ConstantUtf8 constantUtf8 = (ConstantUtf8) 
+				Main.constantPool.getStructure(nameAndType.nameIndex());
+		return constantUtf8.getName();
 	}
 
 }

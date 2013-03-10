@@ -5,7 +5,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 
+import edu.uci.tai.constantPool.ConstantUtf8;
 import edu.uci.tai.constantPool.Structure;
+import edu.uci.tai.parser.Main;
 import experiment.BitManipulation;
 
 public class MethodArray 
@@ -28,7 +30,7 @@ public class MethodArray
 		methods = new Method[(int) Structure.valueFromBytes(methodCount)];
 
 		for (int i = 0; i < methods.length; i++)
-			methods[i] = new Method();
+			methods[i] = new Method(fis);
 	}
 	
 	@Override
@@ -42,24 +44,36 @@ public class MethodArray
 		return builder.toString();
 	}
 	
-	private class Method
+	public Method getMainMethod() throws IOException
+	{
+		for (Method m : methods)
+		{
+			if (m.getName().equals("main"))
+				return m;
+		}
+		
+		return null;
+	}
+	public static class Method
 	{
 		private AccessFlag accessFlag;
 		private int nameIndex;
 		private int descriptorIndex;
 		private Attribute[] attributes;
-		
+		private FileInputStream fis;
 		
 		private static final int NAME_INDEX_NUM_BYTES = 2;
 		private static final int DESCRIPTOR_INDEX_NUM_BYTES = 2;
 		private static final int ATTRIBUTE_COUNT_NUM_BYTES = 2;
 		
-		public Method() throws Exception
+		public Method(FileInputStream fis) throws Exception
 		{
+			this.fis = fis;
 			initAcessFlag();
 			initNameIndex();
 			initDescriptorIndex();
 			initAttributes();
+	
 		}
 		
 		private void initAcessFlag() throws IOException
@@ -106,6 +120,26 @@ public class MethodArray
 			return builder.toString();
 		}
 		
+		public String getName() throws IOException
+		{
+			ConstantUtf8 consUtf8 = (ConstantUtf8) 
+					Main.constantPool.getStructure(nameIndex);
+			System.out.println(String.format("method.getName(): %s", 
+					consUtf8.getName()));
+			return consUtf8.getName();
+		}
+		
+		public CodeAttribute getCodes()
+		{
+			for (Attribute a : attributes)
+			{
+				if (a instanceof CodeAttribute)
+					return (CodeAttribute) a;
+			}
+			
+			return null;
+		}
+		
 		private class AccessFlag
 		{
 			private static final int ACC_PUBLIC_POS = 0;
@@ -121,12 +155,14 @@ public class MethodArray
 			private BitManipulation bitMan;
 			private int accessFlagLowByte;
 			private int accessFlagHighByte;
+		
 			
 			private static final int ACCESS_FLAGS_NUM_BYTES = 2;
 			
 			public AccessFlag() throws IOException
 			{
 				bitMan = new BitManipulation();
+		
 				init();
 			}
 			

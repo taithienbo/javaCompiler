@@ -22,8 +22,11 @@ public class IfCmpNe extends Instruction
 		int value2 = state.popFromStack();
 		
 		if (value1 != value2)
-			state.setIndex(branchByte1 << 8 | branchByte2);
-		return state;
+		{
+			int offset = branchByte1 << 8 | branchByte2;
+			state.setIndex(offset + state.getIndex() -1);
+		}
+			return state;
 	}
 
 }

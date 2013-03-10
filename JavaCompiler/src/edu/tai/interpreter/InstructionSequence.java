@@ -28,4 +28,9 @@ public class InstructionSequence
 	{
 		return getInstruction(index).getOperand();
 	}
+	
+	public void setInstructionAtIndex(int index, Instruction inst)
+	{
+		instructions.set(index, inst);
+	}
 }

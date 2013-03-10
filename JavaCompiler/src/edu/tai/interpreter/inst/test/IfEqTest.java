@@ -1,7 +1,7 @@
 package edu.tai.interpreter.inst.test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+
 
 import org.junit.Test;
 
@@ -62,10 +62,9 @@ public class IfEqTest
 		@Override
 		public State get() 
 		{
-			State state = new State(1, 1, null);
+			State state = new State(1, 1, new int[0], null);
 			state.pushToStack(0);
 
-	
 			return state;
 		}
 		

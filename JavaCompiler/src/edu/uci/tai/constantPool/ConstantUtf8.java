@@ -27,6 +27,12 @@ public class ConstantUtf8 extends Structure
 		fis.read(data);
 	}
 	
+	public String getName() throws IOException
+	{
+		return data();
+	}
+	
+	
 	public int length()
 	{
 		int result = 0;

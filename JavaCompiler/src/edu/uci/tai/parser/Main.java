@@ -3,6 +3,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import edu.tai.interpreter.ByteCodeInterpreter;
+import edu.tai.interpreter.InstructionParserBuilder.ParserException;
+import edu.tai.interpreter.InstructionSequence;
 import edu.uci.tai.constantPool.ConstantPool;
 import edu.uci.tai.constantPool.Structure;
 import edu.uci.tai.representation.Attribute;
@@ -12,6 +15,7 @@ import edu.uci.tai.representation.FieldArray;
 import edu.uci.tai.representation.InterfaceArray;
 import edu.uci.tai.representation.MagicNumber;
 import edu.uci.tai.representation.MethodArray;
+import edu.uci.tai.representation.MethodArray.Method;
 import edu.uci.tai.representation.VersionNumber;
 
 
@@ -26,7 +30,7 @@ public class Main
 	private SuperClass superClass;
 	private InterfaceArray interfaces;
 	private FieldArray fields;
-	private MethodArray methods;
+	private static MethodArray methods;
 	private Attribute[] attributes;
 	
 	public Main(String fileName)
@@ -37,7 +41,7 @@ public class Main
 	
 	public static void main(String[] args) throws Exception
 	{
-		String[] testFiles = new String[]{  "Test1.class",
+		String[] testFiles = new String[]{  "Test5.class",
 				};
 		
 		for (String testFile : testFiles)
@@ -48,7 +52,23 @@ public class Main
 			parser.parse();
 			System.out.println("\n");
 		}
-	
+		
+		ByteCodeInterpreter interpreter = new ByteCodeInterpreter();
+		Method main = methods.getMainMethod();
+		interpreter.interpretMethod(main, new int[0]);
+		
+		int i = 200;
+		byte b = (byte)200;
+
+		// Will print a negative value but you could *still choose to interpret* this as +200.
+		System.out.println(b); 
+
+		// "Upcast" to short in order to easily view / interpret as a positive value.
+		// You would typically do this *within* the method that expected an unsigned byte.
+		short s = (short) (b & 0xFF);
+		System.out.println(s); // Will print a positive value.
+		
+
 	}
 	
 	public void parse() throws Exception
@@ -78,7 +98,7 @@ public class Main
 		System.out.println(interfaces);
 		fields = new FieldArray(fis);
 		System.out.println(fields);
-		MethodArray methods = new MethodArray(fis);
+		methods = new MethodArray(fis);
 		System.out.println(methods);
 		byte[] attributesCount = new byte[2];
 		fis.read(attributesCount);

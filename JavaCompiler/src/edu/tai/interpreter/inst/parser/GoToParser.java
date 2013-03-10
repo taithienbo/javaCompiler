@@ -18,6 +18,7 @@ public class GoToParser implements InstructionParser
 	{
 		int branchByte1 = seq.getInstructionOperand
 				(state.getIndex() + 1);
+		
 		int branchByte2 = seq.getInstructionOperand
 			(state.getIndex() + 2);
 		

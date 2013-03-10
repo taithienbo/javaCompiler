@@ -12,9 +12,9 @@ public class UnKnownInstruction extends Instruction
 	@Override
 	public State execute(State state) 
 	{
-		throw new IllegalStateException
-		(String.format
-				("cannot execute unknown instruction. \n Operand: %d", operand));
+		System.out.println(String.format("Unsupported instruction which has " +
+				"operand: %d", operand));
+		return state;
 	}
 	
 
