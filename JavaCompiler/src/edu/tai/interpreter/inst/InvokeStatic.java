@@ -1,13 +1,17 @@
 package edu.tai.interpreter.inst;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
+import edu.tai.interpreter.ByteCodeInterpreter;
+import edu.tai.interpreter.InstructionParserBuilder.ParserException;
 import edu.tai.interpreter.State;
 import edu.uci.tai.constantPool.ConstantMethodref;
 import edu.uci.tai.constantPool.ConstantNameAndType;
 import edu.uci.tai.constantPool.ConstantUtf8;
 import edu.uci.tai.constantPool.Structure;
 import edu.uci.tai.parser.Main;
+import edu.uci.tai.representation.MethodArray.Method;
 
 public class InvokeStatic extends Instruction
 {
@@ -23,29 +27,49 @@ public class InvokeStatic extends Instruction
 	@Override
 	public State execute(State state) throws InstructionException 
 	{
-		int targetMethodIndex = byteIndex1 << 8 | byteIndex2;
+		int targetMethodIndex = ((byte) byteIndex1 << 8) | byteIndex2 ;
 		
-		
-		System.out.println(String.format("inst.InvokeStatic" +
-				".execute() targetMethodIndex: %d", targetMethodIndex));
-	
+		ArrayList<Integer> args = new ArrayList<Integer>();
+
+		while (!state.stackIsEmpty())
+		{
+			args.add(state.popFromStack());
+		}
+
+		String targetMethodName = "";
 			try 
 			{
-				String targetMethodName = getMethodName(targetMethodIndex);
+				targetMethodName = getMethodName(targetMethodIndex);
 				if (targetMethodName.equals("printInt"))
 				{
-					System.out.println(String.format
-						("%s: found printInt method", getClass().getName()));
-					int arg = state.popFromStack();
-					System.out.println
-						(String.format("%s: arg detected: %d", 
-								getClass().getName(), arg));
+					StringBuilder builder = new StringBuilder();
+					for (int i = args.size() - 1; i >=0; i--)
+						builder.append(args.get(i)).append(", ");
+					int commaIndex = builder.lastIndexOf(",");
+		
+					System.out.println(String.format("arg(s) parsed: %s",
+							builder.substring(0, commaIndex)));
+				}
+				else
+				{
+					Method targetMethod = Main.methods
+							.getMethodByName(targetMethodName);
+					ByteCodeInterpreter interpreter = new ByteCodeInterpreter();
+					interpreter.interpretMethod(targetMethod, args);
 				}
 					
 			} 
 			catch (IOException e) 
 			{
 				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+			catch (ParserException e) 
+			{
+				System.out.println(String.format("An error occured while " +
+						"interpreting target method: %s \n %s \n" +
+						"%s", targetMethodName,
+						e.getMessage()));
 				e.printStackTrace();
 			}
 			

@@ -20,17 +20,15 @@ public class GoTo extends Instruction
 	public State execute(State state) throws InstructionException 
 	{
 		byte shiftedBranchByte1 = (byte) (branchByte1 << 8);
-		System.out.println(String.format("%s: shiftedBranchByte1: %d",
-				getClass().getName(), (int) shiftedBranchByte1));
-		
-		int offset =  shiftedBranchByte1 |  branchByte2;
+
+		int offset =  shiftedBranchByte1 | branchByte2;
 
 		byte offsetByte = (byte) offset;
 		int signedOffSet =  (int) offsetByte;
-		
-		System.out.println(String.format("%s: offset is: %d",
-				getClass().getName(), (int) offsetByte));
-		state.setIndex(state.getIndex() + offsetByte -1);
+		int actualIndex = state.getIndex() + signedOffSet;
+
+		state.setIndex(actualIndex -1);
+
 		return state;
 	}
 

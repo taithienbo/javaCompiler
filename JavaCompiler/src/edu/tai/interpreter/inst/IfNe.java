@@ -23,12 +23,15 @@ public class IfNe extends Instruction
 	@Override
 	public State execute(State state) throws InstructionException 
 	{
-		int offset = branchByte1 << 8 | branchByte2;
 		int value = state.popFromStack();
 		
 		if (value != 0)
-			state.setIndex(state.getIndex() + offset -1);
-		return state;
+		{
+			int offset = ((byte) branchByte1) << 8 | branchByte2;
+			int realOffSet = offset & 0xFF;
+			state.setIndex(realOffSet + state.getIndex() -1);
+		}
+			return state;
 	}
 
 }

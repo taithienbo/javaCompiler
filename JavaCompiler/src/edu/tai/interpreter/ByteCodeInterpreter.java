@@ -1,10 +1,8 @@
 package edu.tai.interpreter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import edu.tai.interpreter.InstructionParserBuilder.ParserException;
-import edu.tai.interpreter.inst.Instruction;
 import edu.tai.interpreter.inst.Instruction.InstructionException;
 import edu.tai.interpreter.inst.UnKnownInstruction;
 import edu.uci.tai.parser.Main;
@@ -20,7 +18,7 @@ public class ByteCodeInterpreter
 	}
 	
 	public InstructionSequence interpretMethod
-				(Method method, int[] args) throws ParserException
+				(Method method,List<Integer> args) throws ParserException
 	{
 		CodeAttribute codeAttri = method.getCodes();
 		State state = new State( codeAttri.getMaxStack(), 
@@ -49,8 +47,6 @@ public class ByteCodeInterpreter
 		{
 			try 
 			{
-				System.out.println(String.format("operand: %d", 
-						instSeq.getInstructionOperand(i)));
 				instSeq.getInstruction(i).execute(state);
 			}
 			catch (InstructionException e) 
@@ -59,7 +55,7 @@ public class ByteCodeInterpreter
 				e.printStackTrace();
 			}
 		}
-		
+
 		return instSeq;
 	}
 	

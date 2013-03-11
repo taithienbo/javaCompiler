@@ -21,6 +21,7 @@ import edu.tai.interpreter.inst.parser.Iconst3Parser;
 import edu.tai.interpreter.inst.parser.Iconst4Parser;
 import edu.tai.interpreter.inst.parser.Iconst5Parser;
 import edu.tai.interpreter.inst.parser.IfCmpEqParser;
+import edu.tai.interpreter.inst.parser.IfCmpGeParser;
 import edu.tai.interpreter.inst.parser.IfCmpGtParser;
 import edu.tai.interpreter.inst.parser.IfCmpLtParser;
 import edu.tai.interpreter.inst.parser.IfCmpNeqParser;
@@ -95,6 +96,8 @@ public class InstructionParserBuilder
 			return new IfCmpEqParser();
 		case OpCodes.IF_ICMPGT:
 			return new IfCmpGtParser();
+		case OpCodes.IF_ICMPGE:
+			return new IfCmpGeParser();
 		case OpCodes.IF_ICMPLT:
 			return new IfCmpLtParser();
 		case OpCodes.GOTO:

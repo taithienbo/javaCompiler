@@ -1,5 +1,6 @@
 package edu.tai.interpreter;
 
+import java.util.List;
 import java.util.Stack;
 
 import com.google.inject.ProvidedBy;
@@ -17,15 +18,14 @@ public class State
 	
 	private ConstantPool constPool;
 
-	public State(int stackSize, int numOfVariables, int[] args, 
+	public State(int stackSize, int numOfVariables, List<Integer> args, 
 			ConstantPool constPool) 
 	{
 		stack = new Stack<Integer>();
-		stack.setSize(stackSize);
 		localVariables = new int[numOfVariables];
 
-		for (int i = 0; i < args.length; i++)
-			localVariables[i] = args[i];
+		for (int i = args.size() - 1; i >= 0; i--)
+			localVariables[i] = args.get(i);
 		
 		this.constPool = constPool;
 	}
@@ -39,6 +39,18 @@ public class State
 	{
 		return stack.pop();
 	}
+	
+	public boolean stackIsEmpty()
+	{
+		return stack.isEmpty();
+	}
+	
+	
+	public int getElementFromStackAtIndex(int index)
+	{
+		return stack.get(index);
+	}
+	
 	
 	public int setVarValueAtIndex(int index, int value)
 	{
@@ -76,6 +88,12 @@ public class State
 	public Structure getStructureFromConstantPool(int index)
 	{
 		return constPool.getStructure(index);
+	}
+	
+	@Override
+	public String toString()
+	{
+		return String.format("Stack: %s", stack.toString());
 	}
 	
 }

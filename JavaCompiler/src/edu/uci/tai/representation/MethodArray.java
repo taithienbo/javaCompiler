@@ -44,11 +44,11 @@ public class MethodArray
 		return builder.toString();
 	}
 	
-	public Method getMainMethod() throws IOException
+	public Method getMethodByName(String name) throws IOException
 	{
 		for (Method m : methods)
 		{
-			if (m.getName().equals("main"))
+			if (m.getName().equals(name))
 				return m;
 		}
 		
@@ -124,8 +124,6 @@ public class MethodArray
 		{
 			ConstantUtf8 consUtf8 = (ConstantUtf8) 
 					Main.constantPool.getStructure(nameIndex);
-			System.out.println(String.format("method.getName(): %s", 
-					consUtf8.getName()));
 			return consUtf8.getName();
 		}
 		
@@ -150,6 +148,7 @@ public class MethodArray
 			private static final int ACC_SYNCHRONIZED_POS = 5;
 			private static final int ACC_NATIVE_POS = 0;		// 8 when align two bytes horizontally
 			private static final int ACC_ABSTRACT_POS = 2; 		// 10 when align two bytes horizontally
+			private static final int ACC_VARARGS = 7;			// 0x0080
 			private static final int ACC_STRICT_POS = 3;		// 11 when align two bytes horizontally
 
 			private BitManipulation bitMan;
@@ -174,6 +173,7 @@ public class MethodArray
 				accessFlagHighByte = (int) Structure.valueFromBytes(new byte[]{accessFlags[0]});
 			}
 			
+	
 			public boolean isPublic()
 			{
 				return bitMan.getBit(accessFlagLowByte, ACC_PUBLIC_POS);

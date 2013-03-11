@@ -12,8 +12,8 @@ public class UnKnownInstruction extends Instruction
 	@Override
 	public State execute(State state) 
 	{
-		System.out.println(String.format("Unsupported instruction which has " +
-				"operand: %d", operand));
+		System.out.println(String.format("Unimplemented instruction which has " 
+				+ "operand: %d", operand));
 		return state;
 	}
 	

@@ -23,8 +23,9 @@ public class IfCmpNe extends Instruction
 		
 		if (value1 != value2)
 		{
-			int offset = branchByte1 << 8 | branchByte2;
-			state.setIndex(offset + state.getIndex() -1);
+			int offset = ((byte) branchByte1) << 8 | branchByte2;
+			int realOffSet = offset & 0xFF;
+			state.setIndex(realOffSet + state.getIndex() -1);
 		}
 			return state;
 	}

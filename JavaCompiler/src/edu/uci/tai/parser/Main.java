@@ -2,6 +2,7 @@ package edu.uci.tai.parser;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import edu.tai.interpreter.ByteCodeInterpreter;
 import edu.tai.interpreter.InstructionParserBuilder.ParserException;
@@ -30,7 +31,7 @@ public class Main
 	private SuperClass superClass;
 	private InterfaceArray interfaces;
 	private FieldArray fields;
-	private static MethodArray methods;
+	public static MethodArray methods;
 	private Attribute[] attributes;
 	
 	public Main(String fileName)
@@ -41,7 +42,7 @@ public class Main
 	
 	public static void main(String[] args) throws Exception
 	{
-		String[] testFiles = new String[]{  "Test5.class",
+		String[] testFiles = new String[]{ "Test5.class",
 				};
 		
 		for (String testFile : testFiles)
@@ -54,21 +55,9 @@ public class Main
 		}
 		
 		ByteCodeInterpreter interpreter = new ByteCodeInterpreter();
-		Method main = methods.getMainMethod();
-		interpreter.interpretMethod(main, new int[0]);
+		Method main = methods.getMethodByName("main");
+		interpreter.interpretMethod(main, new ArrayList<Integer>());
 		
-		int i = 200;
-		byte b = (byte)200;
-
-		// Will print a negative value but you could *still choose to interpret* this as +200.
-		System.out.println(b); 
-
-		// "Upcast" to short in order to easily view / interpret as a positive value.
-		// You would typically do this *within* the method that expected an unsigned byte.
-		short s = (short) (b & 0xFF);
-		System.out.println(s); // Will print a positive value.
-		
-
 	}
 	
 	public void parse() throws Exception
@@ -76,9 +65,6 @@ public class Main
 		FileInputStream fis = new FileInputStream(new File(fileName));
 		printOutFormatted(fis);
 		printOutRaw(fis);
-		
-	
-
 	}
 	
 
