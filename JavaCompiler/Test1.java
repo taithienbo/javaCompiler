@@ -1,8 +1,4 @@
-public class Test1 
-{
-
-	public static final int value2 = -6;
-	
+public class Test1 {
 	public static void printInt(int value) {
 		System.out.println(value);
 	}

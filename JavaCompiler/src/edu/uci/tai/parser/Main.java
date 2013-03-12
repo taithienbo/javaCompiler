@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import edu.tai.interpreter.ByteCodeInterpreter;
-import edu.tai.interpreter.InstructionParserBuilder.ParserException;
-import edu.tai.interpreter.InstructionSequence;
 import edu.uci.tai.constantPool.ConstantPool;
 import edu.uci.tai.constantPool.Structure;
 import edu.uci.tai.representation.Attribute;
@@ -42,7 +40,7 @@ public class Main
 	
 	public static void main(String[] args) throws Exception
 	{
-		String[] testFiles = new String[]{ "Test5.class",
+		String[] testFiles = new String[]{ "Test3.class",
 				};
 		
 		for (String testFile : testFiles)
@@ -90,7 +88,8 @@ public class Main
 		fis.read(attributesCount);
 		attributes = new Attribute
 				[(int) Structure.valueFromBytes(attributesCount)];
-		System.out.println(String.format("attributes_length: %d", attributes.length));
+		System.out.println(String.format("attributes_length: %d",
+				attributes.length));
 		for (int i = 0; i < attributes.length; i++)
 			attributes[i] = new AttributeParser(fis).parseAttribute();
 		for (Attribute a : attributes)

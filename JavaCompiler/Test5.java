@@ -1,6 +1,6 @@
 public class Test5 {
-	public static void printInt(int value1, int value2) {
-		System.out.println(value1	);
+	public static void printInt(int value) {
+		System.out.println(value);
 	}
 
 	public static void main(String[] args) {
@@ -15,7 +15,7 @@ public class Test5 {
 			i++;
 		}
 
-		printInt(sum, 100);
+		printInt(sum);
 	}
 
 }
